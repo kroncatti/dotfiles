@@ -1,0 +1,8 @@
+brew "wget"
+brew "fzf"
+brew "telnet"
+brew "go"
+brew "docker-compose"
+cask "spotify"
+cask "whatsapp"
+cask "corretto@11"
