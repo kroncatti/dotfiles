@@ -4,4 +4,4 @@ brew bundle
 
 
 echo Setting up ZSH
-ln -fns $PWD/zshrc $HOME/.zshrc
+ln -fns $PWD/.zshrc $HOME/.zshrc
