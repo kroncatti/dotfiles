@@ -1,9 +1,13 @@
 cask "spotify"
 cask "whatsapp"
 cask "corretto@11"
+cask "iterm2"
+
 brew "clojure"
 brew "wget"
 brew "fzf"
 brew "telnet"
 brew "go"
+brew "git"
 brew "docker-compose"
+brew "jandedobbeleer/oh-my-posh/oh-my-posh"
