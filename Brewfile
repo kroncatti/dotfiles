@@ -1,6 +1,7 @@
 cask "spotify"
 cask "whatsapp"
 cask "corretto@11"
+cask "oracle-jdk@21"
 cask "iterm2"
 
 brew "clojure"
