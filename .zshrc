@@ -4,6 +4,7 @@ alias nrepl='clj -M:nREPL -m nrepl.cmdline'
 
 alias python=python3
 alias pip=pip3
+alias all_javas="/usr/libexec/java_home -V"
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
