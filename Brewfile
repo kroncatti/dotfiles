@@ -5,6 +5,7 @@ cask "oracle-jdk@21"
 cask "iterm2"
 
 brew "clojure"
+brew "coursier"
 brew "wget"
 brew "fzf"
 brew "telnet"
