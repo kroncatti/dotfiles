@@ -6,6 +6,10 @@ alias python=python3
 alias pip=pip3
 alias all_javas="/usr/libexec/java_home -V"
 
+[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
+[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix nvm)/etc/bash_completion.d/nvm"
+export NVM_DIR="$HOME/.nvm"
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
 SAVEHIST=100000000
