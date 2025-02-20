@@ -6,9 +6,8 @@ alias python=python3
 alias pip=pip3
 alias all_javas="/usr/libexec/java_home -V"
 
-[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
-[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix nvm)/etc/bash_completion.d/nvm"
-export NVM_DIR="$HOME/.nvm"
+# k8s stuff
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
@@ -19,5 +18,15 @@ setopt SHARE_HISTORY
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source <(fzf --zsh)
+
+# pnpm
+export PNPM_HOME="/Users/kaleb.roncatti/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+autoload -Uz compinit && compinit
 
 eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/easy-term.omp.json)"
