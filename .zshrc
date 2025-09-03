@@ -9,6 +9,9 @@ alias all_javas="/usr/libexec/java_home -V"
 # k8s stuff
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# Docker stuff
+alias lzd='lazydocker'
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
 SAVEHIST=100000000
