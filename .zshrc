@@ -1,4 +1,4 @@
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 
 alias nrepl='clj -M:nREPL -m nrepl.cmdline'
 
