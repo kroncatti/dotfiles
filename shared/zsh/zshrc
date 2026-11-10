@@ -8,7 +8,7 @@ case "$(uname -s)" in
   Linux)  DOTFILES_OS=fedora ;;
 esac
 
-# Sets JAVA_HOME, PATH, PNPM_HOME, NVM_SH, ZSH_AUTOSUGGESTIONS, OMP_CONFIG
+# Sets JAVA_HOME, PATH, PNPM_HOME, ZSH_AUTOSUGGESTIONS, OMP_CONFIG
 [ -f "$DOTFILES/$DOTFILES_OS/zshrc" ] && source "$DOTFILES/$DOTFILES_OS/zshrc"
 
 alias nrepl='clj -M:nREPL -m nrepl.cmdline'
@@ -40,9 +40,10 @@ setopt SHARE_HISTORY
 
 command -v fzf >/dev/null && source <(fzf --zsh)
 
-# nvm stuff
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_SH" ] && source "$NVM_SH"
+# asdf: Node.js (and other tool) versions, pinned in ~/.tool-versions -> shared/asdf/tool-versions
+export ASDF_DATA_DIR="$HOME/asdf/data"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
+fpath=("$ASDF_DATA_DIR/completions" $fpath)
 
 # pnpm
 case ":$PATH:" in

@@ -31,6 +31,15 @@ echo "==> Running $OS setup"
 
 echo '==> Linking shared configs'
 link "$DOTFILES/shared/zsh/zshrc" "$HOME/.zshrc"
+link "$DOTFILES/shared/asdf/tool-versions" "$HOME/.tool-versions"
+
+echo '==> Installing tool versions with asdf'
+export ASDF_DATA_DIR="$HOME/asdf/data"
+export PATH="$ASDF_DATA_DIR/shims:$HOME/go/bin:$PATH"
+mkdir -p "$ASDF_DATA_DIR/completions"
+asdf completion zsh > "$ASDF_DATA_DIR/completions/_asdf"
+cut -d" " -f1 "$HOME/.tool-versions" | while read -r plugin; do asdf plugin add "$plugin" 2>/dev/null || true; done
+(cd "$HOME" && asdf install)
 
 echo
 echo 'Done. Put machine-specific or secret settings (tokens, work aliases) in ~/.zshrc.local; it is sourced but never committed.'

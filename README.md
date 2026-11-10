@@ -18,9 +18,10 @@ Running `install.sh` again is safe.
 ## Layout
 
 ```
-install.sh               entry point: detects OS, runs <os>/install.sh, links shared configs
+install.sh               entry point: detects OS, runs <os>/install.sh, links shared configs, runs asdf install
 shared/
-  zsh/zshrc              ~/.zshrc on every machine: aliases, history, fzf, nvm, oh-my-posh
+  zsh/zshrc              ~/.zshrc on every machine: aliases, history, fzf, asdf, oh-my-posh
+  asdf/tool-versions     ~/.tool-versions on every machine: pinned Node.js (and other tool) versions
   vscode/launch/         VS Code launch configs (Go, TypeScript), copy into a project's .vscode/ as needed
 macos/
   install.sh             brew bundle + Hammerspoon link
@@ -28,7 +29,7 @@ macos/
   zshrc                  macOS paths: JAVA_HOME via java_home, Homebrew prefixes
   hammerspoon/init.lua   sets the Yodoit monitor's brightness on connect and wake (via m1ddc)
 fedora/
-  install.sh             dnf + Flatpak + VS Code/Brave repos, nvm, oh-my-posh, Nerd Font, Docker, zsh as login shell
+  install.sh             dnf + Flatpak + VS Code/Brave repos, asdf, oh-my-posh, Nerd Font, Docker, zsh as login shell
   packages.txt           dnf packages
   flatpaks.txt           Flathub apps
   zshrc                  Fedora paths: JAVA_HOME from the `java` alternative, ~/.local/bin, ~/go/bin
@@ -38,12 +39,23 @@ fedora/
 
 `~/.zshrc` is a symlink to `shared/zsh/zshrc`. It loads files in this order:
 
-1. `<os>/zshrc`, which sets the OS-specific paths (`JAVA_HOME`, `NVM_SH`, `ZSH_AUTOSUGGESTIONS`, `OMP_CONFIG`, `PNPM_HOME`).
+1. `<os>/zshrc`, which sets the OS-specific paths (`JAVA_HOME`, `ZSH_AUTOSUGGESTIONS`, `OMP_CONFIG`, `PNPM_HOME`).
 2. The shared aliases and tool setup.
 3. `~/.zshrc.local`, if it exists.
 
 **Put anything machine-specific or secret in `~/.zshrc.local`**: tokens, work aliases, extra `PATH` entries.
 That file is never committed.
+
+## Node.js and other tool versions (asdf)
+
+Both OSes use [asdf](https://asdf-vm.com) with its data in `~/asdf/data`.
+`~/.tool-versions` is a symlink to `shared/asdf/tool-versions`, so every machine gets the same versions.
+
+- Change the global Node.js version: `asdf install nodejs <version> && asdf set --home nodejs <version>`.
+  This edits the file in the repo through the symlink, so commit it afterwards.
+- Add another tool: add a `<plugin> <version>` line to `shared/asdf/tool-versions` and run `./install.sh` again.
+  It adds any missing plugins and installs the listed versions.
+- Per-project versions: a `.tool-versions` file in a project directory overrides the global one.
 
 ## Adding packages
 
@@ -58,11 +70,11 @@ The Fedora setup was tested in a Fedora 45 container. Things that differ from ma
 
 - **Java**: Fedora 45 only ships OpenJDK 25 (no 17 or 21). For older JDKs, add the [Adoptium repo](https://adoptium.net/installation/linux/) or use SDKMAN.
   `JAVA_HOME` follows whichever version `sudo alternatives --config java` selects.
-- **Not in the Fedora repos**: kubectx, kubens and lazydocker are installed with `go install` (into `~/go/bin`).
+- **Not in the Fedora repos**: asdf, kubectx, kubens and lazydocker are installed with `go install` (into `~/go/bin`).
   VS Code and Brave come from their vendors' dnf repos. Spotify and IntelliJ come from Flathub.
 - **Docker** is Fedora's `moby-engine`. Log out and back in after installing so the `docker` group membership applies.
 - **Not set up on Fedora**: WhatsApp (no Linux app), iTerm2 (KDE ships Konsole), coursier, pnpm
-  (run `npm i -g pnpm` after `nvm install --lts`).
+  (add `pnpm <version>` to `shared/asdf/tool-versions`).
 - **Hammerspoon** is macOS only. On Linux the equivalent is `ddcutil` (in the Fedora repos), which isn't set up here.
 
 ## macOS notes

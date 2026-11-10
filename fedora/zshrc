@@ -3,8 +3,7 @@
 # Follow the `java` alternative (switch with: sudo alternatives --config java)
 command -v java >/dev/null && export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(command -v java)")")")"
 
-export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"   # oh-my-posh, go install (kubectx, lazydocker)
+export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"   # oh-my-posh, go install (asdf, kubectx, lazydocker)
 export PNPM_HOME="$HOME/.local/share/pnpm"
-NVM_SH="$HOME/.nvm/nvm.sh"
 ZSH_AUTOSUGGESTIONS="/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 OMP_CONFIG="$HOME/.config/oh-my-posh/easy-term.omp.json"

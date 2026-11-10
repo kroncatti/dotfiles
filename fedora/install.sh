@@ -29,8 +29,8 @@ go install github.com/ahmetb/kubectx/cmd/kubectx@latest
 go install github.com/ahmetb/kubectx/cmd/kubens@latest
 go install github.com/jesseduffield/lazydocker@latest
 
-echo 'Installing nvm'
-[ -d "$HOME/.nvm" ] || PROFILE=/dev/null bash -c 'curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
+echo 'Installing asdf'
+go install github.com/asdf-vm/asdf/cmd/asdf@v0.18.0
 
 echo 'Installing oh-my-posh and the easy-term theme'
 mkdir -p "$HOME/.local/bin" "$HOME/.config/oh-my-posh"
