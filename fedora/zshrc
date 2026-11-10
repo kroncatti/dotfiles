@@ -1,8 +1,5 @@
 # Fedora-specific zsh setup, sourced by shared/zsh/zshrc
 
-# Follow the `java` alternative (switch with: sudo alternatives --config java)
-command -v java >/dev/null && export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(command -v java)")")")"
-
 export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"   # oh-my-posh, go install (asdf, kubectx, lazydocker)
 export PNPM_HOME="$HOME/.local/share/pnpm"
 ZSH_AUTOSUGGESTIONS="/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

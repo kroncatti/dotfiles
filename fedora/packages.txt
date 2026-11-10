@@ -6,7 +6,6 @@ telnet
 golang
 zsh
 zsh-autosuggestions
-java-25-openjdk-devel
 clojure
 awscli2
 moby-engine

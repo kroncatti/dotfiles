@@ -1,8 +1,5 @@
 # macOS-specific zsh setup, sourced by shared/zsh/zshrc
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-alias all_javas="/usr/libexec/java_home -V"
-
 BREW_PREFIX="$(brew --prefix)"
 export PNPM_HOME="$HOME/Library/pnpm"
 ZSH_AUTOSUGGESTIONS="$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

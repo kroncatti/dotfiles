@@ -41,5 +41,8 @@ asdf completion zsh > "$ASDF_DATA_DIR/completions/_asdf"
 cut -d" " -f1 "$HOME/.tool-versions" | while read -r plugin; do asdf plugin add "$plugin" 2>/dev/null || true; done
 (cd "$HOME" && asdf install)
 
+echo '==> Linking asdf JDKs into ~/.jdks for IntelliJ'
+"$DOTFILES/shared/asdf/link-jdks.sh"
+
 echo
 echo 'Done. Put machine-specific or secret settings (tokens, work aliases) in ~/.zshrc.local; it is sourced but never committed.'
