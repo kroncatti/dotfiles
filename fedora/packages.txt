@@ -1,0 +1,18 @@
+# dnf packages, one per line. Checked against Fedora 45.
+git
+wget2-wget
+fzf
+telnet
+golang
+zsh
+zsh-autosuggestions
+java-25-openjdk-devel
+clojure
+awscli2
+moby-engine
+docker-compose
+k9s
+flatpak
+unzip
+fontconfig
+curl

@@ -1,0 +1,58 @@
+# Shared zsh config for every machine. ~/.zshrc is a symlink to this file.
+# OS-specific setup lives in <os>/zshrc; machine-specific or secret stuff goes in ~/.zshrc.local (never committed).
+
+# Resolve the repo root through the ~/.zshrc symlink
+DOTFILES="${${(%):-%x}:A:h:h:h}"
+case "$(uname -s)" in
+  Darwin) DOTFILES_OS=macos ;;
+  Linux)  DOTFILES_OS=fedora ;;
+esac
+
+# Sets JAVA_HOME, PATH, PNPM_HOME, NVM_SH, ZSH_AUTOSUGGESTIONS, OMP_CONFIG
+[ -f "$DOTFILES/$DOTFILES_OS/zshrc" ] && source "$DOTFILES/$DOTFILES_OS/zshrc"
+
+alias nrepl='clj -M:nREPL -m nrepl.cmdline'
+
+alias python=python3
+alias pip=pip3
+
+# Git stuff
+alias gs='git status'
+alias gc='git commit -m'
+alias ga='git add'
+alias gaa='git add .'
+alias gp='git push origin $(git rev-parse --abbrev-ref HEAD)'
+
+# k8s stuff
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Docker stuff
+alias lzd='lazydocker'
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000000
+SAVEHIST=100000000
+setopt appendhistory
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+[ -f "$ZSH_AUTOSUGGESTIONS" ] && source "$ZSH_AUTOSUGGESTIONS"
+
+command -v fzf >/dev/null && source <(fzf --zsh)
+
+# nvm stuff
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_SH" ] && source "$NVM_SH"
+
+# pnpm
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+autoload -Uz compinit && compinit
+
+command -v oh-my-posh >/dev/null && eval "$(oh-my-posh init zsh --config "$OMP_CONFIG")"
