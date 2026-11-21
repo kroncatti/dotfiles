@@ -48,6 +48,10 @@ fpath=("$ASDF_DATA_DIR/completions" $fpath)
 [ -f "$ASDF_DATA_DIR/plugins/java/set-java-home.zsh" ] && source "$ASDF_DATA_DIR/plugins/java/set-java-home.zsh"
 alias all_javas='asdf list java'
 
+# coursier: launchers it installs (metals, sbt, scala-cli). Same dir on macOS and Fedora.
+export COURSIER_BIN_DIR="$HOME/.local/share/coursier/bin"
+export PATH="$COURSIER_BIN_DIR:$PATH"
+
 # pnpm
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;

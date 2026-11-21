@@ -47,6 +47,19 @@ if [ ! -d "$FONT_DIR" ]; then
   fc-cache -f
 fi
 
+echo 'Installing Zed'
+if [ ! -x "$HOME/.local/bin/zed" ]; then
+  curl -fsSL https://zed.dev/install.sh | sh
+fi
+link "$DOTFILES/fedora/zed/keymap.json" "$HOME/.config/zed/keymap.json"
+
+echo 'Installing coursier (needed for Metals, the Scala language server)'
+if [ ! -x "$HOME/.local/bin/cs" ]; then
+  curl -fsSL "https://github.com/coursier/coursier/releases/latest/download/cs-$(uname -m)-pc-linux.gz" \
+    | gzip -d > "$HOME/.local/bin/cs"
+  chmod +x "$HOME/.local/bin/cs"
+fi
+
 echo 'Enabling Docker'
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"

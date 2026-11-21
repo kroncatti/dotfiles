@@ -32,6 +32,7 @@ echo "==> Running $OS setup"
 echo '==> Linking shared configs'
 link "$DOTFILES/shared/zsh/zshrc" "$HOME/.zshrc"
 link "$DOTFILES/shared/asdf/tool-versions" "$HOME/.tool-versions"
+link "$DOTFILES/shared/zed/settings.json" "$HOME/.config/zed/settings.json"
 
 echo '==> Installing tool versions with asdf'
 export ASDF_DATA_DIR="$HOME/asdf/data"
@@ -43,6 +44,12 @@ cut -d" " -f1 "$HOME/.tool-versions" | while read -r plugin; do asdf plugin add 
 
 echo '==> Linking asdf JDKs into ~/.jdks for IntelliJ'
 "$DOTFILES/shared/asdf/link-jdks.sh"
+
+echo '==> Installing Metals (Scala language server used by Zed) with coursier'
+export COURSIER_BIN_DIR="$HOME/.local/share/coursier/bin"
+export PATH="$HOME/.local/bin:$PATH"
+CS="$(command -v cs || command -v coursier)"
+"$CS" install metals
 
 echo
 echo 'Done. Put machine-specific or secret settings (tokens, work aliases) in ~/.zshrc.local; it is sourced but never committed.'

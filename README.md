@@ -18,22 +18,25 @@ Running `install.sh` again is safe.
 ## Layout
 
 ```
-install.sh               entry point: detects OS, runs <os>/install.sh, links shared configs, runs asdf install
+install.sh               entry point: detects OS, runs <os>/install.sh, links shared configs, runs asdf install, installs Metals
 shared/
   zsh/zshrc              ~/.zshrc on every machine: aliases, history, fzf, asdf, oh-my-posh
   asdf/tool-versions     ~/.tool-versions on every machine: pinned Node.js and Java (LTS) versions
   asdf/link-jdks.sh      links asdf JDKs into ~/.jdks so IntelliJ detects them
+  zed/settings.json      ~/.config/zed/settings.json on every machine: theme, icons, extensions, Metals (Scala)
   vscode/launch/         VS Code launch configs (Go, TypeScript), copy into a project's .vscode/ as needed
 macos/
   install.sh             brew bundle + Hammerspoon link
   Brewfile               Homebrew formulae and casks
   zshrc                  macOS paths: Homebrew prefixes
   hammerspoon/init.lua   sets the Yodoit monitor's brightness on connect and wake (via m1ddc)
+  zed/keymap.json        ~/.config/zed/keymap.json on macOS (Cmd-based bindings)
 fedora/
-  install.sh             dnf + Flatpak + VS Code/Brave repos, asdf, oh-my-posh, Nerd Font, Docker, zsh as login shell
+  install.sh             dnf + Flatpak + VS Code/Brave repos, asdf, oh-my-posh, Nerd Font, Zed, coursier, Docker, zsh as login shell
   packages.txt           dnf packages
   flatpaks.txt           Flathub apps
   zshrc                  Fedora paths: ~/.local/bin, ~/go/bin
+  zed/keymap.json        ~/.config/zed/keymap.json on Fedora (same bindings, Ctrl instead of Cmd)
 ```
 
 ## How the zsh config works
@@ -64,6 +67,28 @@ It pins the current LTS releases: Node.js 26 and Java 25 (Eclipse Temurin; asdf-
 - **IntelliJ**: `install.sh` symlinks every asdf JDK into `~/.jdks/asdf-<version>`, a folder IntelliJ scans for JDKs.
   After installing another JDK with asdf, run `shared/asdf/link-jdks.sh` so IntelliJ picks it up.
 
+## Zed
+
+Zed is installed with Homebrew on macOS and with Zed's official script on Fedora (into `~/.local/bin/zed`).
+Its config is symlinked like everything else:
+
+- `shared/zed/settings.json` → `~/.config/zed/settings.json` (the same path on both OSes).
+- `<os>/zed/keymap.json` → `~/.config/zed/keymap.json`. Zed keymaps can't vary by OS, and Linux has no Cmd key, so each OS has its own file.
+
+**Extensions** are listed in `auto_install_extensions` in `settings.json`. Zed installs any missing ones the next time it starts.
+To add one, install it from `zed: extensions` and add its ID to that list.
+
+**Scala**: the Scala extension runs the `metals` launcher from coursier (`~/.local/share/coursier/bin`, put on `PATH` by `shared/zsh/zshrc`).
+`install.sh` installs it with `cs install metals`; update it later with `cs update metals`.
+The `-J--add-exports` flags in `settings.json` are needed on JDK 17+, or Metals fails to index Java sources and can crash.
+
+**Keybindings** on top of the JetBrains base keymap:
+
+| Keys | Action |
+|---|---|
+| Shift Shift | file finder (like IntelliJ's Search Everywhere) |
+| Cmd Cmd (macOS) / Ctrl Ctrl (Fedora) | toggle inlay hints (inferred types, implicits) |
+
 ## Adding packages
 
 | What | macOS | Fedora |
@@ -78,7 +103,8 @@ The Fedora setup was tested in a Fedora 45 container. Things that differ from ma
 - **Not in the Fedora repos**: asdf, kubectx, kubens and lazydocker are installed with `go install` (into `~/go/bin`).
   VS Code and Brave come from their vendors' dnf repos. Spotify and IntelliJ come from Flathub.
 - **Docker** is Fedora's `moby-engine`. Log out and back in after installing so the `docker` group membership applies.
-- **Not set up on Fedora**: WhatsApp (no Linux app), iTerm2 (KDE ships Konsole), coursier, pnpm
+- **coursier** isn't in the Fedora repos; `install.sh` downloads the `cs` binary into `~/.local/bin`.
+- **Not set up on Fedora**: WhatsApp (no Linux app), iTerm2 (KDE ships Konsole), pnpm
   (add `pnpm <version>` to `shared/asdf/tool-versions`).
 - **Hammerspoon** is macOS only. On Linux the equivalent is `ddcutil` (in the Fedora repos), which isn't set up here.
 

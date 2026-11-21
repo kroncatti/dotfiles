@@ -8,3 +8,6 @@ brew bundle --file "$DOTFILES/macos/Brewfile"
 echo 'Setting up Hammerspoon'
 link "$DOTFILES/macos/hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
 echo 'Remember: open Hammerspoon once and grant it Accessibility permission (System Settings > Privacy & Security > Accessibility)'
+
+echo 'Linking the Zed keymap'
+link "$DOTFILES/macos/zed/keymap.json" "$HOME/.config/zed/keymap.json"

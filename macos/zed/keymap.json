@@ -1,0 +1,18 @@
+// Zed keymap for macOS. ~/.config/zed/keymap.json is a symlink to this file.
+// Base keymap is JetBrains (set in shared/zed/settings.json); these are additions on top.
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      // Double-tap Cmd toggles inlay hints (types, implicits) on/off
+      "cmd cmd": "editor::ToggleInlayHints"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      // Double-tap Shift opens the file finder, like IntelliJ's Search Everywhere
+      "shift shift": "file_finder::Toggle"
+    }
+  }
+]

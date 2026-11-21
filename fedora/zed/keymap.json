@@ -1,0 +1,18 @@
+// Zed keymap for Fedora. ~/.config/zed/keymap.json is a symlink to this file.
+// Same as macos/zed/keymap.json, with Ctrl in place of Cmd.
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      // Double-tap Ctrl toggles inlay hints (types, implicits) on/off
+      "ctrl ctrl": "editor::ToggleInlayHints"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      // Double-tap Shift opens the file finder, like IntelliJ's Search Everywhere
+      "shift shift": "file_finder::Toggle"
+    }
+  }
+]

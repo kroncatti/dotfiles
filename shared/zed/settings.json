@@ -1,0 +1,123 @@
+// Zed settings, shared by macOS and Fedora. ~/.config/zed/settings.json is a symlink to this file.
+// Keybindings live per OS in <os>/zed/keymap.json (Cmd on macOS, Ctrl on Fedora).
+// See https://zed.dev/docs/configuring-zed
+{
+  // Installed on first start, so a fresh machine gets everything at once
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "hocon": true,
+    "html": true,
+    "material-icon-theme": true,
+    "ruby": true,
+    "scala": true,
+    "sql": true
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 2000
+    }
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "file_scan_exclusions": [
+    "**/.git", "**/.bloop", "**/.metals", "**/.bsp",
+    "**/target", "**/project/target", "**/.DS_Store"
+  ],
+  "git": { "inline_blame": { "enabled": true, "delay_ms": 600 } },
+  // Off by default; toggled with a double-tap of Cmd (macOS) / Ctrl (Fedora), see keymap.json
+  "inlay_hints": {
+    "enabled": false,
+    "show_type_hints": true
+  },
+  "base_keymap": "JetBrains",
+  "ui_font_size": 16,
+  "buffer_font_size": 14,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Material Icon Theme",
+    "dark": "Material Icon Theme"
+  },
+  "project_panel": {
+    "file_icons": true,
+    "folder_icons": true,
+    "git_status": true,
+    "indent_guides": { "show": "always" },
+    "auto_fold_dirs": true
+  },
+  // Stronger git status colors in the project panel and tabs
+  "theme_overrides": {
+    "One Dark": {
+      "modified": "#e5c07b",
+      "created": "#98c379",
+      "deleted": "#e06c75",
+      "ignored": "#5c6370",
+      "conflict": "#c678dd"
+    },
+    "One Light": {
+      "modified": "#c18401",
+      "created": "#50a14f",
+      "deleted": "#e45649",
+      "ignored": "#a0a1a7",
+      "conflict": "#a626a4"
+    }
+  },
+  "restore_on_startup": "last_workspace",
+  "terminal": {
+    "font_size": 12,
+    "font_family": "FiraCode Nerd Font Mono",
+    "line_height": "standard"
+  },
+  "cli_default_open_behavior": "new_window",
+  "agent_ui_font_size": 14,
+  "agent_buffer_font_size": 13,
+  "lsp": {
+    // Scala: the extension runs the `metals` launcher installed by coursier (see <os>/install.sh)
+    "metals": {
+      "binary": {
+        // -J... flags go to the Metals JVM. The add-exports let Metals index Java sources on JDK 17+
+        // (without them it throws IllegalAccessError on com.sun.tools.javac.* and can crash).
+        "arguments": [
+          "-J-Dmetals.http=on",
+          "-J-Xss4m",
+          "-J-Xmx4G",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+          "-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+        ]
+      },
+      "initialization_options": {
+        "isHttpEnabled": true
+      },
+      "settings": {
+        "autoImportBuilds": "all",
+        "inlayHints": {
+          "inferredTypes": { "enable": true },
+          "implicitArguments": { "enable": true },
+          "implicitConversions": { "enable": true },
+          "typeParameters": { "enable": true },
+          "hintsInPatternMatch": { "enable": false },
+          "byNameParameters": { "enable": true },
+          "namedParameters": { "enable": true }
+        }
+      }
+    }
+  }
+}
