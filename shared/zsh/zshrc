@@ -29,6 +29,19 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # Docker stuff
 alias lzd='lazydocker'
 
+# AWS stuff
+# `aws login` (browser sign-in), then export the session from its cache so tools that don't read the login
+# cache (e.g. Terraform) can use it. Credentials are temporary; re-run when they expire.
+function aws-auth() {
+    aws login || return 1
+    local f=$(ls -t ~/.aws/login/cache/*.json 2>/dev/null | head -1)
+    [ -n "$f" ] || { echo "no aws login cache found" >&2; return 1; }
+    export AWS_ACCESS_KEY_ID=$(python3 -c "import json; print(json.load(open('$f'))['accessToken']['accessKeyId'])")
+    export AWS_SECRET_ACCESS_KEY=$(python3 -c "import json; print(json.load(open('$f'))['accessToken']['secretAccessKey'])")
+    export AWS_SESSION_TOKEN=$(python3 -c "import json; print(json.load(open('$f'))['accessToken']['sessionToken'])")
+    echo "AWS credentials exported"
+}
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000000
 SAVEHIST=100000000
