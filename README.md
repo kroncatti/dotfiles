@@ -5,8 +5,8 @@ My setup for macOS and Fedora (KDE Plasma): packages, zsh config, and a few app 
 ## Install
 
 ```sh
-git clone https://github.com/kroncatti/dotfiles.git ~/Documents/personal-projects/dotfiles
-cd ~/Documents/personal-projects/dotfiles
+git clone https://github.com/kroncatti/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
 ./install.sh
 ```
 
