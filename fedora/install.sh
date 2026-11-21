@@ -60,6 +60,11 @@ if [ ! -x "$HOME/.local/bin/cs" ]; then
   chmod +x "$HOME/.local/bin/cs"
 fi
 
+echo 'Installing babashka (runs the Clojure REPL and paredit helpers for Zed)'
+if [ ! -x "$HOME/.local/bin/bb" ]; then
+  curl -fsSL https://raw.githubusercontent.com/babashka/babashka/master/install | bash -s -- --dir "$HOME/.local/bin"
+fi
+
 echo 'Enabling Docker'
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"

@@ -1,0 +1,75 @@
+// Global Zed tasks, shared by macOS and Fedora. ~/.config/zed/tasks.json is a symlink to this file.
+// The Clojure tasks run shared/zed/clojure.bb (linked to ~/.config/zed/clojure.bb) with babashka;
+// <os>/zed/keymap.json binds them to Cursive's keys. They also show up in `task: spawn`.
+[
+  // ---- REPL --------------------------------------------------------------
+  {
+    "label": "clojure: start nREPL",
+    // deps.edn, project.clj or bb.edn in the project root decides how; also an interactive REPL in this terminal
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" start-repl \"$ZED_WORKTREE_ROOT\"",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "show_command": false
+  },
+  {
+    "label": "clojure: eval top form",
+    // the selection if there is one (read from $ZED_SELECTED_TEXT), else the top-level form at the cursor
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" eval \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current",
+    "reveal": "no_focus",
+    "allow_concurrent_runs": true,
+    "show_summary": false,
+    "show_command": false
+  },
+  {
+    "label": "clojure: eval form before cursor",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" eval-before \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current",
+    "reveal": "no_focus",
+    "allow_concurrent_runs": true,
+    "show_summary": false,
+    "show_command": false
+  },
+  {
+    "label": "clojure: load file in REPL",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" load-file \"$ZED_FILE\"",
+    "save": "current",
+    "reveal": "no_focus",
+    "allow_concurrent_runs": true,
+    "show_summary": false,
+    "show_command": false
+  },
+
+  // ---- Paredit: rewrite the saved file; Zed reloads it. The terminal only shows up on errors.
+  {
+    "label": "clojure: slurp forward",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" slurp-forward \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  },
+  {
+    "label": "clojure: barf forward",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" barf-forward \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  },
+  {
+    "label": "clojure: slurp backward",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" slurp-backward \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  },
+  {
+    "label": "clojure: barf backward",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" barf-backward \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  },
+  {
+    "label": "clojure: raise",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" raise \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  },
+  {
+    "label": "clojure: splice",
+    "command": "bb \"$HOME/.config/zed/clojure.bb\" splice \"$ZED_FILE\" $ZED_ROW $ZED_COLUMN",
+    "save": "current", "reveal": "never", "hide": "on_success", "show_summary": false, "show_command": false
+  }
+]

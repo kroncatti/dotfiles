@@ -24,6 +24,8 @@ shared/
   asdf/tool-versions     ~/.tool-versions on every machine: pinned Node.js and Java (LTS) versions
   asdf/link-jdks.sh      links asdf JDKs into ~/.jdks so IntelliJ detects them
   zed/settings.json      ~/.config/zed/settings.json on every machine: theme, icons, extensions, Metals (Scala)
+  zed/tasks.json         ~/.config/zed/tasks.json on every machine: Clojure REPL and paredit tasks
+  zed/clojure.bb         ~/.config/zed/clojure.bb: babashka script behind those tasks (nREPL client, paredit)
   vscode/launch/         VS Code launch configs (Go, TypeScript), copy into a project's .vscode/ as needed
 macos/
   install.sh             brew bundle + Hammerspoon link
@@ -32,7 +34,7 @@ macos/
   hammerspoon/init.lua   sets the Yodoit monitor's brightness on connect and wake (via m1ddc)
   zed/keymap.json        ~/.config/zed/keymap.json on macOS (Cmd-based bindings)
 fedora/
-  install.sh             dnf + Flatpak + VS Code/Brave repos, asdf, oh-my-posh, Nerd Font, Zed, coursier, Docker, zsh as login shell
+  install.sh             dnf + Flatpak + VS Code/Brave repos, asdf, oh-my-posh, Nerd Font, Zed, coursier, babashka, Docker, zsh as login shell
   packages.txt           dnf packages
   flatpaks.txt           Flathub apps
   zshrc                  Fedora paths: ~/.local/bin, ~/go/bin
@@ -89,6 +91,35 @@ The `-J--add-exports` flags in `settings.json` are needed on JDK 17+, or Metals 
 | Shift Shift | file finder (like IntelliJ's Search Everywhere) |
 | Cmd Cmd (macOS) / Ctrl Ctrl (Fedora) | toggle inlay hints (inferred types, implicits) |
 
+### Clojure
+
+The Clojure extension gives syntax highlighting and clojure-lsp (it downloads clojure-lsp itself if it isn't on `PATH`).
+Zed has no nREPL client and no paredit, so `shared/zed/clojure.bb` (run with [babashka](https://babashka.org)) fills in, called from tasks in `shared/zed/tasks.json`.
+The keys below follow Cursive and only apply in `.clj`, `.cljs`, `.cljc`, `.edn` and `.bb` files.
+
+1. Start a REPL: `task: spawn` → **clojure: start nREPL**. It looks at the project root: `deps.edn` runs `clojure` with nREPL and cider-nrepl added (set `CLJ_ALIASES=:dev:test` to add aliases), `project.clj` runs `lein repl`, `bb.edn` runs `bb nrepl-server`.
+   That terminal is also an interactive REPL on the same server. A REPL you started yourself works too, as long as it writes `.nrepl-port`.
+2. Evaluate with the keys below. Output appears in a terminal tab named after the task. Forms run in the file's namespace, and the file is loaded first if the REPL hasn't seen that namespace yet.
+
+| macOS | Fedora | Action |
+|---|---|---|
+| Cmd Shift P | Ctrl Shift P | eval the selection, or the top-level form at the cursor |
+| Cmd Shift E | Ctrl Shift E | eval the form that ends right before the cursor |
+| Cmd Shift L | Ctrl Shift L | load the file in the REPL |
+| Cmd Shift K | Ctrl Shift K | slurp forward |
+| Cmd Shift J | Ctrl Shift J | barf forward |
+| Ctrl Cmd J | Ctrl Alt J | slurp backward |
+| Ctrl Cmd K | Ctrl Alt K | barf backward |
+| Ctrl Cmd R | Ctrl Alt R | raise (replace the enclosing form with the one at the cursor) |
+| Ctrl Cmd S | Ctrl Alt S | splice (remove the enclosing brackets) |
+
+Limits of doing this with tasks:
+
+- Paredit saves the buffer, rewrites the file with rewrite-clj and lets Zed reload it, so each edit is a separate undo step and takes a moment longer than a built-in action.
+- Each evaluation opens a new nREPL session, so `*1`, `*e` and `set!` vars don't carry over between evaluations. They do in the interactive REPL terminal.
+- Results show in the terminal, not inline in the editor.
+- Debug the nREPL traffic with `ZED_CLJ_DEBUG=1 bb ~/.config/zed/clojure.bb eval <file> <row> <col>`.
+
 ## Adding packages
 
 | What | macOS | Fedora |
@@ -112,3 +143,8 @@ The Fedora setup was tested in a Fedora 45 container. Things that differ from ma
 
 - After the first install, open Hammerspoon once and give it Accessibility permission.
   It then starts at login by itself.
+- Homebrew refuses formulae from third-party taps it doesn't trust yet. On a fresh Mac, `brew bundle` stops on
+  `clojure/tools`, `borkdude/brew` (babashka) and `jandedobbeleer/oh-my-posh` until you run
+  `brew trust --tap clojure/tools borkdude/brew jandedobbeleer/oh-my-posh`.
+- Apps already installed without Homebrew make `brew bundle` (and so `install.sh`) fail.
+  Hand them to Homebrew with `brew install --cask --adopt <cask>`, or remove them first.

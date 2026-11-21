@@ -33,6 +33,8 @@ echo '==> Linking shared configs'
 link "$DOTFILES/shared/zsh/zshrc" "$HOME/.zshrc"
 link "$DOTFILES/shared/asdf/tool-versions" "$HOME/.tool-versions"
 link "$DOTFILES/shared/zed/settings.json" "$HOME/.config/zed/settings.json"
+link "$DOTFILES/shared/zed/tasks.json" "$HOME/.config/zed/tasks.json"
+link "$DOTFILES/shared/zed/clojure.bb" "$HOME/.config/zed/clojure.bb"
 
 echo '==> Installing tool versions with asdf'
 export ASDF_DATA_DIR="$HOME/asdf/data"
