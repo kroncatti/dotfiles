@@ -103,15 +103,19 @@ The keys below follow Cursive and only apply in `.clj`, `.cljs`, `.cljc`, `.edn`
 
 | macOS | Fedora | Action |
 |---|---|---|
-| Cmd Shift P | Ctrl Shift P | eval the selection, or the top-level form at the cursor |
-| Cmd Shift E | Ctrl Shift E | eval the form that ends right before the cursor |
-| Cmd Shift L | Ctrl Shift L | load the file in the REPL |
+| Ctrl Shift P | Alt Shift P | eval the selection, or the top-level form at the cursor |
+| Ctrl Shift E | Alt Shift E | eval the form that ends right before the cursor |
+| Ctrl Shift L | Alt Shift L | load the file in the REPL |
 | Cmd Shift K | Ctrl Shift K | slurp forward |
 | Cmd Shift J | Ctrl Shift J | barf forward |
 | Ctrl Cmd J | Ctrl Alt J | slurp backward |
 | Ctrl Cmd K | Ctrl Alt K | barf backward |
-| Ctrl Cmd R | Ctrl Alt R | raise (replace the enclosing form with the one at the cursor) |
-| Ctrl Cmd S | Ctrl Alt S | splice (remove the enclosing brackets) |
+| Ctrl Cmd R | Alt Shift U | raise (replace the enclosing form with the one at the cursor) |
+| Ctrl Cmd U | Ctrl Alt U | splice (remove the enclosing brackets) |
+
+Cursive puts the REPL keys on Cmd Shift, but in Zed those are the command palette (Cmd Shift P), the project panel and select-all-matches, so they use Ctrl Shift here.
+In Clojure files these keys override Zed's: Cmd Shift K (delete line; git push in other files still works), Cmd Shift J (search filters),
+Ctrl Shift P/E (select up / select to end of line). On Fedora: Ctrl Shift K/J (delete line, join lines), Ctrl Alt J/K (workspace sidebar, agent thinking mode).
 
 Limits of doing this with tasks:
 

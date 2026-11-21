@@ -19,17 +19,18 @@
     // Clojure files only: Cursive's REPL and structural-editing keys, run as tasks from shared/zed/tasks.json
     "context": "Editor && mode == full && (extension == clj || extension == cljs || extension == cljc || extension == edn || extension == bb)",
     "bindings": {
-      // REPL (start it first with the "clojure: start nREPL" task)
-      "ctrl-shift-p": ["task::Spawn", { "task_name": "clojure: eval top form" }],
-      "ctrl-shift-e": ["task::Spawn", { "task_name": "clojure: eval form before cursor" }],
-      "ctrl-shift-l": ["task::Spawn", { "task_name": "clojure: load file in REPL" }],
+      // REPL (start it first with the "clojure: start nREPL" task). Cursive's letters on Alt Shift, because
+      // Ctrl Shift P is Zed's command palette on Linux.
+      "alt-shift-p": ["task::Spawn", { "task_name": "clojure: eval top form" }],
+      "alt-shift-e": ["task::Spawn", { "task_name": "clojure: eval form before cursor" }],
+      "alt-shift-l": ["task::Spawn", { "task_name": "clojure: load file in REPL" }],
       // Paredit
       "ctrl-shift-k": ["task::Spawn", { "task_name": "clojure: slurp forward" }],
       "ctrl-shift-j": ["task::Spawn", { "task_name": "clojure: barf forward" }],
       "ctrl-alt-j": ["task::Spawn", { "task_name": "clojure: slurp backward" }],
       "ctrl-alt-k": ["task::Spawn", { "task_name": "clojure: barf backward" }],
-      "ctrl-alt-r": ["task::Spawn", { "task_name": "clojure: raise" }],
-      "ctrl-alt-s": ["task::Spawn", { "task_name": "clojure: splice" }]
+      "alt-shift-u": ["task::Spawn", { "task_name": "clojure: raise" }],
+      "ctrl-alt-u": ["task::Spawn", { "task_name": "clojure: splice" }]
     }
   }
 ]
